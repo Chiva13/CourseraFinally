@@ -46,5 +46,4 @@ Deleted 1 events
 Неверный формат даты:
 Add 0-13-32 event1
 Вывод:
- 
 Month value is invalid: 13
