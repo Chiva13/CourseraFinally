@@ -1,0 +1,240 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <set>
+#include <vector>
+#include <iomanip>
+#include <sstream>
+#include <exception>
+struct Year {
+	int value;
+	Year(int new_value) {
+		value = new_value;
+	}
+};
+struct Month {
+	int value;
+	Month(int new_value) {
+		value = new_value;
+	}
+
+};
+struct Day {
+	int value;
+	Day(int new_value) {
+		value = new_value;
+	}
+};
+
+using namespace std;
+// Реализуйте функции и методы классов и при необходимости добавьте свои
+class Date {
+public:
+	Date () {
+		year = 1;
+		month = 1;
+ 		day = 1;
+	}
+	Date (Year new_year, Month new_month, Day new_day) {
+		year = new_year.value;
+		month = new_month.value;
+		if (month >= 13 || month <= 0) {
+			string error = "Month value is invalid: " + to_string(month);
+			throw invalid_argument(error);
+		}
+		day = new_day.value;
+		if (day >= 39 || day <= 0) {
+			string error = "Day value is invalid: " + to_string(day);
+			throw invalid_argument(error);
+		}
+
+	}
+	int GetYear() const {
+		return year;
+	}
+	int GetMonth() const {
+		return month;
+	}
+	int GetDay() const {
+		return day;
+	}
+private:
+	int year;
+	int month;
+	int day;
+};
+
+bool operator<(const Date& lhs, const Date& rhs) {
+	if(lhs.GetYear() == rhs.GetYear()) {
+		if(lhs.GetMonth() == rhs.GetMonth()) {
+			return lhs.GetDay() < rhs.GetDay();
+		} else {
+			return lhs.GetMonth() < rhs.GetMonth();
+		}
+	}
+	return lhs.GetYear() < rhs.GetYear();
+}
+
+bool operator==(const Date& lhs, const Date& rhs) {
+	return (
+		(lhs.GetYear() == rhs.GetYear()) &&
+		(lhs.GetMonth() == rhs.GetMonth()) &&
+		(lhs.GetDay() == rhs.GetDay())
+	);
+}
+
+ostream& operator<<(ostream& stream, const Date& a) {
+	cout << setfill('0');
+	stream << setw(4) << a.GetYear() << '-' << setw(2) << a.GetMonth() << '-'<< setw(2)  << a.GetDay();
+    return stream;
+}
+
+
+void ParseStr(const string& str) {
+	if(
+			str != "Add" &&
+			str != "Del" &&
+			str != "Print" &&
+			str != "Find"
+					) {
+		string error = "Unknown command: " + str;
+		throw invalid_argument(error);
+	}
+}
+
+
+void EnsureNextSymbolAndSkip(stringstream& stream) {
+	if (stream.peek() != '-') {
+		throw exception();
+	}
+	stream.ignore(1);
+}
+istream& operator>>(istream& stream, Date& a) {
+	int d = -1;
+	int m = -1;
+	int y = -1;
+	stream >> y;
+	stream.ignore(1);
+	stream >> m;
+	stream.ignore(1);
+	stream >> d;
+	a = Date(y,m,d);
+    return stream;
+}
+
+Date ParseDate(const string& s) {
+	stringstream stream(s);
+	Date date;
+	int y = -1,m = -1,d = -1;
+	stream >> y;
+	EnsureNextSymbolAndSkip(stream);
+	stream >> m;
+	EnsureNextSymbolAndSkip(stream);
+	stream >> d;
+	date = Date(y,m,d);
+	return date;
+}
+
+
+class Database {
+public:
+	void AddEvent(const Date& date, const string& event) {
+		set<string> s = m[date];
+		s.insert(event);
+		m[date] = s;
+	}
+
+	bool DeleteEvent(const Date& date, const string& event) {
+		set<string> s = m[date];
+		int old_size = s.size();
+		s.erase(event);
+		int new_size = s.size();
+		m[date] = s;
+		if (m[date].size() == 0) {
+			m.erase(date);
+		}
+		return new_size < old_size;
+	}
+
+	int DeleteDate(const Date& date){
+		int N = m[date].size();
+		m.erase(date);
+		return N;
+	}
+	string Find(const Date& date) const {
+		string str;
+		if (m.count(date)) {
+			set<string> s =	m.at(date);
+			for(auto i : s) {
+				str += i+'\n';
+			}
+			str.erase(str.size()-1);
+		}
+		return str;
+	}
+	void Print() const {
+		for (auto i : m) {
+			for(auto s : i.second){
+				cout << i.first << ' ' << s << endl;
+			}
+		}
+	}
+private:
+	map<Date,set<string>> m;
+};
+
+int main() {
+	try {
+	Database db;
+	string command;
+	int count = 0;
+	while (getline(cin, command)) {
+		string str = "";
+		string w = "";
+		string event = "";
+		Date date = {Year{1}, Month{1}, Day{1}};
+		count = 0;
+		istringstream iss(command);
+		while (iss >> w) {
+			if (count == 0) {
+				str = w;
+				ParseStr(str);
+			} else if (count == 1) {
+				stringstream d;
+				d << w;
+				ParseDate(w);
+				d >> date;
+			} else if (count == 2) {
+				event = w;
+			}
+			count++;
+		}
+		if ("Add" == str && event != "") {
+			db.AddEvent(date, event);
+		} else if ("Find" == str) {
+			if (db.Find(date) != "") {
+				cout << db.Find(date) << endl;
+			}
+		} else if ("Del" == str) {
+			if (count == 3) {
+							if(db.DeleteEvent(date, event)){
+								cout << "Deleted successfully" << endl;
+							} else {
+								cout << "Event not found" << endl;
+							}
+			} else {
+				cout << "Deleted "<< db.DeleteDate(date) << " events" << endl;
+			}
+ 		} else if ("Print" == str) {
+			db.Print();
+		} else if ("" == str) {
+
+		}
+	}
+
+	} catch (exception& e) {
+		cout << e.what() << endl;
+	}
+
+	return 0;
+}
