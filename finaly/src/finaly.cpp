@@ -6,62 +6,88 @@
 #include <iomanip>
 #include <sstream>
 #include <exception>
-struct Year {
-	int value;
-	Year(int new_value) {
-		value = new_value;
-	}
-};
-struct Month {
-	int value;
-	Month(int new_value) {
-		value = new_value;
-	}
-
-};
-struct Day {
-	int value;
-	Day(int new_value) {
-		value = new_value;
-	}
-};
 
 using namespace std;
 
+struct Year {
+	int value;
+	Year(int year)
+	: value(year) {}
+};
+
+struct Month {
+	int value;
+	Month(int month)
+	: value(month){
+		if (value >= 13 || value <= 0) {
+			string error = "Month value is invalid: " + to_string(value);
+			throw invalid_argument(error);
+		}
+	}
+};
+
+struct Day {
+	int value;
+	Day(int day)
+	: value(day) {
+		if (value >= 32 || value <= 0) {
+			string error = "Day value is invalid: " + to_string(value);
+			throw invalid_argument(error);
+		}
+	}
+};
+
+bool operator<(const Day& lhs, const Day& rhs) {
+	return lhs.value < rhs.value;
+}
+bool operator<(const Month& lhs, const Month& rhs) {
+	return lhs.value < rhs.value;
+}
+bool operator<(const Year& lhs, const Year& rhs) {
+	return lhs.value < rhs.value;
+}
+bool operator==(const Day& lhs, const Day& rhs) {
+	return lhs.value == rhs.value;
+}
+bool operator==(const Month& lhs, const Month& rhs) {
+	return lhs.value < rhs.value;
+}
+bool operator==(const Year& lhs, const Year& rhs) {
+	return lhs.value < rhs.value;
+}
+ostream& operator<<(ostream& stream, const Year& a) {
+	stream << a.value;
+    return stream;
+}
+ostream& operator<<(ostream& stream, const Month& a) {
+	stream << a.value;
+    return stream;
+}
+ostream& operator<<(ostream& stream, const Day& a) {
+	stream << a.value;
+    return stream;
+}
+
 class Date {
 public:
-	Date () {
-		year = 1;
-		month = 1;
- 		day = 1;
-	}
-	Date (Year new_year, Month new_month, Day new_day) {
-		year = new_year.value;
-		month = new_month.value;
-		if (month >= 13 || month <= 0) {
-			string error = "Month value is invalid: " + to_string(month);
-			throw invalid_argument(error);
-		}
-		day = new_day.value;
-		if (day >= 32 || day <= 0) {
-			string error = "Day value is invalid: " + to_string(day);
-			throw invalid_argument(error);
-		}
-
-	}
-	int GetYear() const {
+	Date () : year(1), month(1), day(1) {}
+	Date (Year new_year, Month new_month, Day new_day)
+	: year(new_year.value),
+	  month(new_month.value),
+	  day(new_day.value) {}
+	Year GetYear() const {
 		return year;
 	}
-	int GetMonth() const {
+	Month GetMonth() const {
 		return month;
 	}
-	int GetDay() const {
+	Day GetDay() const {
 		return day;
 	}
 private:
-	int year;
-	int month;
-	int day;
+	Year year;
+	Month month;
+	Day day;
 };
 
 bool operator<(const Date& lhs, const Date& rhs) {
@@ -142,17 +168,13 @@ Date ParseDate(const string& s) {
 class Database {
 public:
 	void AddEvent(const Date& date, const string& event) {
-		set<string> s = m[date];
-		s.insert(event);
-		m[date] = s;
+		m[date].insert(event) ;
 	}
 
 	bool DeleteEvent(const Date& date, const string& event) {
-		set<string> s = m[date];
-		int old_size = s.size();
-		s.erase(event);
-		int new_size = s.size();
-		m[date] = s;
+		int old_size = m[date].size();
+		m[date].erase(event) ;
+		int new_size = m[date].size();
 		if (m[date].size() == 0) {
 			m.erase(date);
 		}
@@ -164,20 +186,25 @@ public:
 		m.erase(date);
 		return N;
 	}
+
 	string Find(const Date& date) const {
 		string str;
 		if (m.count(date)) {
-			set<string> s =	m.at(date);
-			for(auto i : s) {
-				str += i+'\n';
+			unsigned int j = 0;
+			for(const auto& i : m.at(date)) {
+				str += i;
+				if (j != m.at(date).size()-1){
+					str += '\n';
+				}
+				j++;
 			}
-			str.erase(str.size()-1);
 		}
 		return str;
 	}
+
 	void Print() const {
-		for (auto i : m) {
-			for(auto s : i.second){
+		for (const auto& i : m) {
+			for(const auto& s : i.second){
 				cout << i.first << ' ' << s << endl;
 			}
 		}
