@@ -44,17 +44,17 @@
 После любой ошибки ввода и печати сообщения программа должна завершать своё выполнение.
 
 Корректный ввод:
-Add 0-1-2 event1.
-Add 1-2-3 event2.
-Find 0-1-2.
-Del 0-1-2.
-Print.
+Add 0-1-2 event1
+Add 1-2-3 event2
+Find 0-1-2
+Del 0-1-2
+Print
 Вывод:
-event1.
-Deleted 1 events.
-0001-02-03 event2.
+event1
+Deleted 1 events
+0001-02-03 event2
 
 Неверный формат даты:
-Add 0-13-32 event1.
+Add 0-13-32 event1
 Вывод:
-Month value is invalid: 13.
+Month value is invalid: 13
