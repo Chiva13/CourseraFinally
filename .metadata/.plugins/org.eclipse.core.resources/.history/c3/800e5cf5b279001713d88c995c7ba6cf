@@ -27,7 +27,7 @@ struct Day {
 };
 
 using namespace std;
-
+// Реализуйте функции и методы классов и при необходимости добавьте свои
 class Date {
 public:
 	Date () {
@@ -89,17 +89,19 @@ ostream& operator<<(ostream& stream, const Date& a) {
     return stream;
 }
 
-void ParseStr(const string& s) {
+void ParseStr(const string& str) {
 	if(
-			s != "Add" &&
-			s != "Del" &&
-			s != "Print" &&
-			s != "Find"
+			str != "Add" &&
+			str != "Del" &&
+			str != "Print" &&
+			str != "Find"
 					) {
-		string error = "Unknown command: " + s;
+		string error = "Unknown command: " + str;
 		throw invalid_argument(error);
 	}
 }
+
+
 void EnsureNextSymbolAndSkip(stringstream& stream, const string& s) {
 	if (stream.peek() != '-') {
 		string error = "Wrong date format: " + s;
@@ -122,20 +124,24 @@ istream& operator>>(istream& stream, Date& a) {
 }
 
 Date ParseDate(const string& s) {
-	stringstream stream(s);
-	Date date;
-	int y = -1,m = -1,d = -1;
-	stream >> y;
-	EnsureNextSymbolAndSkip(stream, s);
-	stream >> m;
-	EnsureNextSymbolAndSkip(stream, s);
-	stream >> d;
-	date = Date(y,m,d);
-	if (y < 0 || m < 0 || d < 0 || s =="") {
-		string error = "Wrong date format: " + s;
-		throw invalid_argument(error);
+	try {
+		stringstream stream(s);
+		Date date;
+		int y = -1,m = -1,d = -1;
+		stream >> y;
+		EnsureNextSymbolAndSkip(stream, s);
+		stream >> m;
+		EnsureNextSymbolAndSkip(stream, s);
+		stream >> d;
+		date = Date(y,m,d);
+		if (y < 0 || m < 0 || d < 0) {
+			string error = "Wrong date format: " + s;
+			throw invalid_argument(error);
+		}
+		return date;
+	} catch (exception& e) {
+		cout << e.what() << endl;
 	}
-	return date;
 }
 
 
@@ -186,39 +192,36 @@ private:
 	map<Date,set<string>> m;
 };
 
-void CheckGetLine(const	string& command, int& count,string& str,string& event, Date& date) {
-	string w = "";
-	count = 0;
-	istringstream iss(command);
-	while (iss >> w) {
-		if (count == 0) {
-			ParseStr(w);
-			str = w;
-		} else if (count == 1) {
-			ParseDate(w);
-			stringstream d;
-			d << w;
-			d >> date;
-		} else if (count == 2) {
-			event = w;
-		}
-		count++;
-	}
-	//cout << "str = " << str << endl;
-	//cout << "date = " << date << endl;
-	//cout << "event = " << event << endl;
-}
-
 int main() {
 	try {
 	Database db;
 	string command;
+	int count = 0;
 	while (getline(cin, command)) {
-		int count = 0;
-		string str="";
-		string event="";
-		Date date{1,1,1};
-		CheckGetLine(command, count, str, event, date);
+		string str = "";
+		string w = "";
+		string event = "";
+		Date date;
+		count = 0;
+		istringstream iss(command);
+		while (iss >> w) {
+			if (count == 0) {
+				ParseStr(w);
+				str = w;
+			} else if (count == 1) {
+				ParseDate(w);
+				stringstream d;
+				d << w;
+				d >> date;
+			} else if (count == 2) {
+				event = w;
+			}
+			count++;
+		}
+		cout << "str = " << str << endl;
+		cout << "date = " << date << endl;
+		cout << "event = " << event << endl;
+		/*
 		if ("Add" == str && event != "") {
 			db.AddEvent(date, event);
 		} else if ("Find" == str) {
@@ -238,7 +241,8 @@ int main() {
  		} else if ("Print" == str) {
 			db.Print();
 		} else if ("" == str) {
-		}
+
+		}*/
 	}
 
 	} catch (exception& e) {

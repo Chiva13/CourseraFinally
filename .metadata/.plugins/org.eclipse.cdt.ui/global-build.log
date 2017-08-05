@@ -8021,3 +8021,133 @@ g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp"
  ^
 g++ -o finaly.exe "src\\finaly.o" 
 Info: Nothing to build for finaly
+Info: Nothing to build for finaly
+Info: Nothing to build for finaly
+10:51:58 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+g++ -o finaly.exe "src\\finaly.o" 
+Info: Nothing to build for finaly
+10:58:12 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+..\src\finaly.cpp: In function 'Date ParseDate(const string&)':
+..\src\finaly.cpp:134:30: error: no match for 'operator||' (operand types are 'bool' and 'const string {aka const std::__cxx11::basic_string<char>}')
+  if (y < 0 || m < 0 || d < 0 || s ="") {
+      ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+..\src\finaly.cpp:134:30: note: candidate: operator||(bool, bool) <built-in>
+..\src\finaly.cpp:134:30: note:   no known conversion for argument 2 from 'const string {aka const std::__cxx11::basic_string<char>}' to 'bool'
+..\src\finaly.cpp: In function 'int main()':
+..\src\finaly.cpp:218:30: error: too few arguments to function 'void CheckGetLine(const string&, int&, std::__cxx11::string&, std::__cxx11::string&, Date&)'
+   CheckGetLine(command, count);
+                              ^
+..\src\finaly.cpp:189:6: note: declared here
+ void CheckGetLine(const string& command, int& count,string& str,string& event, Date& date) {
+      ^~~~~~~~~~~~
+10:58:17 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+..\src\finaly.cpp: In function 'int main()':
+..\src\finaly.cpp:218:30: error: too few arguments to function 'void CheckGetLine(const string&, int&, std::__cxx11::string&, std::__cxx11::string&, Date&)'
+   CheckGetLine(command, count);
+                              ^
+..\src\finaly.cpp:189:6: note: declared here
+ void CheckGetLine(const string& command, int& count,string& str,string& event, Date& date) {
+      ^~~~~~~~~~~~
+10:59:04 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+g++ -o finaly.exe "src\\finaly.o" 
+Info: Nothing to build for finaly
+10:59:46 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+..\src\finaly.cpp:189:97: error: cannot bind non-const lvalue reference of type 'std::__cxx11::string& {aka std::__cxx11::basic_string<char>&}' to an rvalue of type 'std::__cxx11::string {aka std::__cxx11::basic_string<char>}'
+ void CheckGetLine(const string& command, int& count,string& str ="",string& event="", Date& date) {
+                                                                                                 ^
+In file included from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/string:52:0,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/locale_classes.h:40,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/ios_base.h:41,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/ios:42,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/ostream:38,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/iostream:39,
+                 from ..\src\finaly.cpp:1:
+c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/basic_string.h:493:7: note:   after user-defined conversion: std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]
+       basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
+       ^~~~~~~~~~~~
+..\src\finaly.cpp:189:97: error: cannot bind non-const lvalue reference of type 'std::__cxx11::string& {aka std::__cxx11::basic_string<char>&}' to an rvalue of type 'std::__cxx11::string {aka std::__cxx11::basic_string<char>}'
+ void CheckGetLine(const string& command, int& count,string& str ="",string& event="", Date& date) {
+                                                                                                 ^
+In file included from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/string:52:0,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/locale_classes.h:40,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/ios_base.h:41,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/ios:42,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/ostream:38,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/iostream:39,
+                 from ..\src\finaly.cpp:1:
+c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/basic_string.h:493:7: note:   after user-defined conversion: std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]
+       basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
+       ^~~~~~~~~~~~
+..\src\finaly.cpp: In function 'void CheckGetLine(const string&, int&, std::__cxx11::string&, std::__cxx11::string&, Date&)':
+..\src\finaly.cpp:189:6: error: default argument missing for parameter 5 of 'void CheckGetLine(const string&, int&, std::__cxx11::string&, std::__cxx11::string&, Date&)'
+ void CheckGetLine(const string& command, int& count,string& str ="",string& event="", Date& date) {
+      ^~~~~~~~~~~~
+10:59:47 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+..\src\finaly.cpp:189:97: error: cannot bind non-const lvalue reference of type 'std::__cxx11::string& {aka std::__cxx11::basic_string<char>&}' to an rvalue of type 'std::__cxx11::string {aka std::__cxx11::basic_string<char>}'
+ void CheckGetLine(const string& command, int& count,string& str ="",string& event="", Date& date) {
+                                                                                                 ^
+In file included from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/string:52:0,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/locale_classes.h:40,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/ios_base.h:41,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/ios:42,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/ostream:38,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/iostream:39,
+                 from ..\src\finaly.cpp:1:
+c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/basic_string.h:493:7: note:   after user-defined conversion: std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]
+       basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
+       ^~~~~~~~~~~~
+..\src\finaly.cpp:189:97: error: cannot bind non-const lvalue reference of type 'std::__cxx11::string& {aka std::__cxx11::basic_string<char>&}' to an rvalue of type 'std::__cxx11::string {aka std::__cxx11::basic_string<char>}'
+ void CheckGetLine(const string& command, int& count,string& str ="",string& event="", Date& date) {
+                                                                                                 ^
+In file included from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/string:52:0,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/locale_classes.h:40,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/ios_base.h:41,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/ios:42,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/ostream:38,
+                 from c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/iostream:39,
+                 from ..\src\finaly.cpp:1:
+c:/dev/mingw64/mingw64/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/bits/basic_string.h:493:7: note:   after user-defined conversion: std::__cxx11::basic_string<_CharT, _Traits, _Alloc>::basic_string(const _CharT*, const _Alloc&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>]
+       basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
+       ^~~~~~~~~~~~
+..\src\finaly.cpp: In function 'void CheckGetLine(const string&, int&, std::__cxx11::string&, std::__cxx11::string&, Date&)':
+..\src\finaly.cpp:189:6: error: default argument missing for parameter 5 of 'void CheckGetLine(const string&, int&, std::__cxx11::string&, std::__cxx11::string&, Date&)'
+ void CheckGetLine(const string& command, int& count,string& str ="",string& event="", Date& date) {
+      ^~~~~~~~~~~~
+11:00:42 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+g++ -o finaly.exe "src\\finaly.o" 
+Info: Nothing to build for finaly
+Info: Nothing to build for finaly
+11:02:56 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+g++ -o finaly.exe "src\\finaly.o" 
+Info: Nothing to build for finaly
+11:03:58 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+g++ -o finaly.exe "src\\finaly.o" 
+Info: Nothing to build for finaly
+11:04:17 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+g++ -o finaly.exe "src\\finaly.o" 
+Info: Nothing to build for finaly
+11:05:01 **** Incremental Build of configuration Debug for project finaly ****
+Info: Internal Builder is used for build
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\finaly.o" "..\\src\\finaly.cpp" 
+g++ -o finaly.exe "src\\finaly.o" 
+Info: Nothing to build for finaly

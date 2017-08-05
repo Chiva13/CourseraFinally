@@ -27,7 +27,7 @@ struct Day {
 };
 
 using namespace std;
-
+// Реализуйте функции и методы классов и при необходимости добавьте свои
 class Date {
 public:
 	Date () {
@@ -131,7 +131,7 @@ Date ParseDate(const string& s) {
 	EnsureNextSymbolAndSkip(stream, s);
 	stream >> d;
 	date = Date(y,m,d);
-	if (y < 0 || m < 0 || d < 0 || s =="") {
+	if (y < 0 || m < 0 || d < 0) {
 		string error = "Wrong date format: " + s;
 		throw invalid_argument(error);
 	}
@@ -204,21 +204,19 @@ void CheckGetLine(const	string& command, int& count,string& str,string& event, D
 		}
 		count++;
 	}
-	//cout << "str = " << str << endl;
-	//cout << "date = " << date << endl;
-	//cout << "event = " << event << endl;
+	cout << "str = " << str << endl;
+	cout << "date = " << date << endl;
+	cout << "event = " << event << endl;
 }
 
 int main() {
 	try {
 	Database db;
 	string command;
+	int count = 0;
 	while (getline(cin, command)) {
-		int count = 0;
-		string str="";
-		string event="";
-		Date date{1,1,1};
-		CheckGetLine(command, count, str, event, date);
+		CheckGetLine(command, count);
+		/*
 		if ("Add" == str && event != "") {
 			db.AddEvent(date, event);
 		} else if ("Find" == str) {
@@ -238,7 +236,8 @@ int main() {
  		} else if ("Print" == str) {
 			db.Print();
 		} else if ("" == str) {
-		}
+
+		}*/
 	}
 
 	} catch (exception& e) {

@@ -27,7 +27,7 @@ struct Day {
 };
 
 using namespace std;
-
+// Реализуйте функции и методы классов и при необходимости добавьте свои
 class Date {
 public:
 	Date () {
