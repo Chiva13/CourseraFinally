@@ -18,23 +18,13 @@ struct Year {
 struct Month {
 	int value;
 	Month(int month)
-	: value(month){
-		if (value >= 13 || value <= 0) {
-			string error = "Month value is invalid: " + to_string(value);
-			throw invalid_argument(error);
-		}
-	}
+	: value(month){}
 };
 
 struct Day {
 	int value;
 	Day(int day)
-	: value(day) {
-		if (value >= 32 || value <= 0) {
-			string error = "Day value is invalid: " + to_string(value);
-			throw invalid_argument(error);
-		}
-	}
+	: value(day) {}
 };
 
 bool operator<(const Day& lhs, const Day& rhs) {
@@ -50,10 +40,10 @@ bool operator==(const Day& lhs, const Day& rhs) {
 	return lhs.value == rhs.value;
 }
 bool operator==(const Month& lhs, const Month& rhs) {
-	return lhs.value < rhs.value;
+	return lhs.value == rhs.value;
 }
 bool operator==(const Year& lhs, const Year& rhs) {
-	return lhs.value < rhs.value;
+	return lhs.value == rhs.value;
 }
 ostream& operator<<(ostream& stream, const Year& a) {
 	stream << a.value;
@@ -74,7 +64,16 @@ public:
 	Date (Year new_year, Month new_month, Day new_day)
 	: year(new_year.value),
 	  month(new_month.value),
-	  day(new_day.value) {}
+	  day(new_day.value) {
+		if (new_month.value >= 13 || new_month.value <= 0) {
+			string error = "Month value is invalid: " + to_string(new_month.value);
+			throw invalid_argument(error);
+		}
+		if (new_day.value >= 32 || new_day.value <= 0) {
+			string error = "Day value is invalid: " + to_string(new_day.value);
+			throw invalid_argument(error);
+		}
+	}
 	Year GetYear() const {
 		return year;
 	}
@@ -126,13 +125,6 @@ void ParseStr(const string& s) {
 		throw invalid_argument(error);
 	}
 }
-void EnsureNextSymbolAndSkip(stringstream& stream, const string& s) {
-	if (stream.peek() != '-') {
-		string error = "Wrong date format: " + s;
-		throw invalid_argument(error);
-	}
-	stream.ignore(1);
-}
 
 istream& operator>>(istream& stream, Date& a) {
 	int d = -1;
@@ -147,6 +139,14 @@ istream& operator>>(istream& stream, Date& a) {
     return stream;
 }
 
+void EnsureNextSymbolAndSkip(stringstream& stream, const string& s) {
+	if (stream.peek() != '-') {
+		string error = "Wrong date format: " + s;
+		throw invalid_argument(error);
+	}
+	stream.ignore(1);
+}
+
 Date ParseDate(const string& s) {
 	stringstream stream(s);
 	Date date;
@@ -156,11 +156,11 @@ Date ParseDate(const string& s) {
 	stream >> m;
 	EnsureNextSymbolAndSkip(stream, s);
 	stream >> d;
-	date = Date(y,m,d);
-	if (y < 0 || m < 0 || d < 0 || s =="") {
-		string error = "Wrong date format: " + s;
+	if(!stream.eof()) {
+		string error = "Wrong date format: "+ s;
 		throw invalid_argument(error);
 	}
+	date = Date(y,m,d);
 	return date;
 }
 
@@ -215,6 +215,7 @@ private:
 
 void CheckGetLine(const	string& command, int& count,string& str,string& event, Date& date) {
 	string w = "";
+	string temp_date = "";
 	count = 0;
 	istringstream iss(command);
 	while (iss >> w) {
@@ -223,6 +224,7 @@ void CheckGetLine(const	string& command, int& count,string& str,string& event, D
 			str = w;
 		} else if (count == 1) {
 			ParseDate(w);
+			temp_date = w;
 			stringstream d;
 			d << w;
 			d >> date;
@@ -231,9 +233,22 @@ void CheckGetLine(const	string& command, int& count,string& str,string& event, D
 		}
 		count++;
 	}
-	//cout << "str = " << str << endl;
-	//cout << "date = " << date << endl;
-	//cout << "event = " << event << endl;
+	if(
+			(str == "Add" ||
+			str == "Del" ||
+			str == "Find") &&
+			count == 1
+					) {
+		string error = "Wrong date format: ";
+		throw invalid_argument(error);
+	}
+	if(
+			str == "Add" &&
+			count == 2
+					) {
+		string error = "Wrong date format: " + temp_date;
+		throw invalid_argument(error);
+	}
 }
 
 int main() {
@@ -246,13 +261,13 @@ int main() {
 		string event="";
 		Date date{1,1,1};
 		CheckGetLine(command, count, str, event, date);
-		if ("Add" == str && event != "") {
+		if ("Add" == str && event != "" && count == 3) {
 			db.AddEvent(date, event);
-		} else if ("Find" == str) {
+		} else if ("Find" == str && count == 2) {
 			if (db.Find(date) != "") {
 				cout << db.Find(date) << endl;
 			}
-		} else if ("Del" == str) {
+		} else if ("Del" == str && (count == 2 || count == 3)) {
 			if (count == 3) {
 							if(db.DeleteEvent(date, event)){
 								cout << "Deleted successfully" << endl;
@@ -262,7 +277,7 @@ int main() {
 			} else {
 				cout << "Deleted "<< db.DeleteDate(date) << " events" << endl;
 			}
- 		} else if ("Print" == str) {
+ 		} else if ("Print" == str && count == 1) {
 			db.Print();
 		} else if ("" == str) {
 		}
